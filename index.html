@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bot Settings</title>
+  </head>
+  <body>
+    <style>
+      #myListbox {
+        overflow-y: scroll;
+        height: 300px; /* Указываем высоту элемента */
+      }
+    </style>
+    <label for="item-name">Item ID:</label>
+    <input type="text" id="item-id"><br><br>
+    <label for="item-cost">Item Cost:</label>
+    <input type="text" id="item-cost"><br><br>
+    <button onclick="saveSettings()">Save</button>
+    <br><br>
+    <div>History:</div>
+    <div id="myListbox"></div>
+
+    <script>
+      var myListbox = document.getElementById("myListbox");
+      var ulList = document.createElement("ul");
+      ulList.id = "ulList";
+      myListbox.appendChild(ulList);
+
+
+      function saveSettings() {
+        const { ipcRenderer } = require('electron');
+
+        const itemID = document.getElementById('item-id').value;
+        const itemCost = document.getElementById('item-cost').value;
+
+        ipcRenderer.send('save-settings', { itemID, itemCost });
+     }
+    </script>
+  </body>
+</html>
